@@ -13,12 +13,6 @@
 
 </p>
 
- Status 
-
- <h4 align="center"> 
-	🚧  React News 🚀 Under construction...  🚧
-</h4> 
-
 <hr> 
 
 <p align="center">
@@ -35,24 +29,27 @@
 
 ## :dart: About ##
 
-(...)
+React News is a subscription blog, created with Next.Js. This application uses SSR and SSG, with integration of Prismic, Stripe and data persistence with FaunaDB.
 
 ## :sparkles: Features ##
 
-:heavy_check_mark: Feature 1;
-:heavy_check_mark: Feature 2;
-:heavy_check_mark: Feature 3;
+:heavy_check_mark: Login with GitHub authentication;
+:heavy_check_mark: Integration with Stripe payment method;
+:heavy_check_mark: Post with Prismic;
 
 ## :rocket: Technologies ##
 
 The following tools were used in this project:
 
-- [Next.js]()
+- [Next.js](https://nextjs.org/)
 - [React](https://pt-br.reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Sass]()
-- [Stripe]()
-- [FaunaDB]()
+- [Sass](https://sass-lang.com/)
+- [Stripe](https://stripe.com/br)
+- [FaunaDB](https://fauna.com/)
+- [Axios](https://axios-http.com/docs/intro)
+- [Prismic](https://prismic.io/)
+- [Next-auth](https://next-auth.js.org/)
 
 ## :white_check_mark: Requirements ##
 
@@ -78,7 +75,7 @@ $ yarn start
 
 ## :memo: License ##
 
-This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
+This project is under license from MIT. For more details, see the [LICENSE](LICENSEd) file.
 
 
 Made with :heart: by <a href="https://github.com/ManuCoutinho" target="_blank">Manu Coutinho</a>
