@@ -1,9 +1,7 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="React News" />
+  <img src="https://imgur.com/gallery/v64x0I4" alt="React News" />
 
   &#xa0;
-
-  <!-- <a href="https://newspage.netlify.app">Demo</a> -->
 </div>
 
 <h1 align="center">React News</h1>
