@@ -1,38 +1,39 @@
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { api } from "../../pages/api/api";
-import { getStripeJs } from "../../services/stripe-js";
-import styles from "./styles.module.scss";
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { api } from '../../pages/api/api'
+import { getStripeJs } from '../../services/stripe-js'
+import styles from './styles.module.scss'
 
 export function SubscribeButton() {
-  const { data: session } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession()
+  const router = useRouter()
 
   async function handleSubscribe() {
     if (!session) {
-      signIn("github");
-      return;
+      signIn('github')
+      return
     }
     if (session.activeSubscription) {
-      router.push("/posts");
-      return;
+      router.push('/posts')
+      return
     }
     try {
-      const response = await api.post("/subscribe");
-      const { sessionId } = response.data;
-      const stripe = await getStripeJs();
-      await stripe.redirectToCheckout({ sessionId });
+      const response = await api.post('/subscribe')
+      const { sessionId } = response.data
+      const stripe = await getStripeJs()
+      await stripe.redirectToCheckout({ sessionId })
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
   }
+  console.log(`session subscribe button is ${JSON.stringify(session, null, 2)}`)
   return (
     <button
       className={styles.subscribeButton}
-      type="button"
+      type='button'
       onClick={handleSubscribe}
     >
       Subscribe now
     </button>
-  );
+  )
 }
