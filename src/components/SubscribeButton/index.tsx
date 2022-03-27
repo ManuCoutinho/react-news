@@ -1,6 +1,6 @@
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { api } from '../../pages/api/api'
+import { api } from '../../services/api'
 import { getStripeJs } from '../../services/stripe-js'
 import styles from './styles.module.scss'
 
@@ -13,9 +13,13 @@ export function SubscribeButton() {
       signIn('github')
       return
     }
-    if (session.activeSubscription) {
-      router.push('/posts')
-      return
+    try {
+      if (session.activeSubscription) {
+        router.push('/posts')
+        return
+      }
+    } catch (error) {
+      console.log(error.message)
     }
     try {
       const response = await api.post('/subscribe')
@@ -26,7 +30,6 @@ export function SubscribeButton() {
       alert(err.message)
     }
   }
-  console.log(`session subscribe button is ${JSON.stringify(session, null, 2)}`)
   return (
     <button
       className={styles.subscribeButton}

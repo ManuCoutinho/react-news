@@ -21,10 +21,12 @@ export const config = {
 
 const relevantEvents = new Set([
   'checkout.session.completed',
+  'customer.subscription.created',
   'customer.subscription.updated',
   'customer.subscription.deleted',
 ])
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const buf = await buffer(req)
@@ -42,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).send(`Webhook error: ${err.message}`)
     }
 
-    const type = event.type
+    const { type } = event
 
     if (relevantEvents.has(type)) {
       try {
@@ -52,27 +54,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           case 'customer.subscription.deleted':
             const subscription = event.data.object as Stripe.Subscription
 
-            await saveSubscription(
-              subscription.id,
-              subscription.customer.toString(),
-              type === 'customer.subscription.created'
-            )
+            await saveSubscription({
+              subscriptionId: subscription.id,
+              customerId: subscription.customer.toString(),
+              createAction: false,
+            })
 
             break
 
           case 'checkout.session.completed':
             const checkoutSession = event.data.object as Stripe.Checkout.Session
+            console.log(`checkout session AQUI ${checkoutSession}`)
 
-            await saveSubscription(
-              checkoutSession.subscription.toString(),
-              checkoutSession.customer.toString(),
-              true
-            )
+            await saveSubscription({
+              subscriptionId: checkoutSession.subscription.toString(),
+              customerId: checkoutSession.customer.toString(),
+              createAction: true,
+            })
             break
           default:
             throw new Error('Unhandled event.')
         }
       } catch (err) {
+        console.log(`catch webhooks ${err}`)
         return res.json({ error: 'Webhook handler failed.' })
       }
     }

@@ -13,6 +13,7 @@ type User = {
   }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const session = await getSession({ req })
@@ -21,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       q.Get(q.Match(q.Index('user_by_email'), q.Casefold(session.user.email)))
     )
 
+    //*verifica se já tem um user no fauna*
     let customerId = user.data.stripe_customer_id
 
     if (!customerId) {

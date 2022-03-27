@@ -4,13 +4,9 @@ import { FiX } from 'react-icons/fi'
 
 import styles from './styles.module.scss'
 
-type SessionProps = {
-  session: Array<string>
-}
-
 export function SignInButton() {
   const { data: session } = useSession()
-  console.log(`session signIn button is ${JSON.stringify(session, null, 2)}`)
+
   return session ? (
     <button
       type='button'

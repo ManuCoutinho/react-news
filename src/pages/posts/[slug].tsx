@@ -1,22 +1,22 @@
-import Head from "next/head";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
-import { getPrismicClient } from "../../services/prismic";
-import { RichText } from "prismic-dom";
+import Head from 'next/head'
+import { GetServerSideProps } from 'next'
+import { getSession } from 'next-auth/react'
+import { getPrismicClient } from '../../services/prismic'
+import { RichText } from 'prismic-dom'
 
-import styles from "./post.module.scss";
+import styles from './post.module.scss'
 
 interface PostProps {
   post: {
-    slug: string,
-    title: string,
-    content: string,
+    slug: string
+    title: string
+    content: string
     updatedAt: string
   }
 }
 
-export default function Post({post}: PostProps){
-  return( 
+export default function Post({ post }: PostProps) {
+  return (
     <>
       <Head>
         <title>{post.title} | News Page</title>
@@ -25,25 +25,29 @@ export default function Post({post}: PostProps){
         <article className={styles.post}>
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
-          <div 
+          <div
             className={styles.postContent}
-            dangerouslySetInnerHTML={{__html: post.content}} />
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </article>
       </main>
     </>
-  );
+  )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
-  const session = await getSession({ req })  
-  const {slug} = params;
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const session = await getSession({ req })
+  const { slug } = params
 
-  if(!session?.activeSubscription) {
+  if (!session?.activeSubscription) {
     return {
-      redirect:{
+      redirect: {
         destination: '/',
         permanent: false,
-      }
+      },
     }
   }
   const prismic = getPrismicClient(req)
@@ -53,11 +57,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
     slug,
     title: RichText.asText(response.data.title),
     content: RichText.asHtml(response.data.content),
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    })
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
+      'pt-BR',
+      {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }
+    ),
   }
-  return {props: { post }}
+  return { props: { post } }
 }

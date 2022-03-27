@@ -9,11 +9,6 @@ import { getPrismicClient } from '../../../services/prismic'
 import { RichText } from 'prismic-dom'
 
 import styles from '../post.module.scss'
-
-type SessionProps = {
-  session: Array<string>
-}
-
 interface PostPreviewProps {
   post: {
     slug: string
@@ -59,7 +54,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
 }
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: ['./'],
+    paths: [],
     fallback: 'blocking',
   }
 }

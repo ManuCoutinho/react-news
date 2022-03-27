@@ -4,7 +4,6 @@ import { query as q } from 'faunadb'
 import { fauna } from '../../../services/fauna'
 
 export default NextAuth({
-  secret: process.env.SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -42,14 +41,15 @@ export default NextAuth({
           ...session,
           activeSubscription: userActiveSubscription,
         }
-      } catch {
+      } catch (err) {
+        console.log(`catch callback session ${err}`)
         return {
           ...session,
           activeSubscription: null,
         }
       }
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       const { email } = user
       try {
         await fauna.query(
@@ -64,7 +64,8 @@ export default NextAuth({
           )
         )
         return true
-      } catch {
+      } catch (err) {
+        console.log(`catch signin ${err}`)
         return false
       }
     },
