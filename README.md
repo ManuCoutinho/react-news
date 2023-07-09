@@ -1,8 +1,5 @@
-<div align="center" id="top"> 
-  <img src="https://imgur.com/gallery/v64x0I4" alt="React News" />
+#### _This repository no longer receives maintenance_
 
-  &#xa0;
-</div>
 
 <h1 align="center">React News</h1>
 
